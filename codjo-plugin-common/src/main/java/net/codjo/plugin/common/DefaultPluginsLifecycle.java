@@ -1,10 +1,11 @@
 package net.codjo.plugin.common;
 import net.codjo.agent.AgentContainer;
 import net.codjo.agent.ContainerConfiguration;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.apache.log4j.Logger;
 /**
  *
  */
@@ -18,8 +19,8 @@ public class DefaultPluginsLifecycle extends PluginsLifecycle {
     public void start(List<? extends ApplicationPlugin> list,
                       CoreWrapper coreWrapper,
                       List<? extends LifecycleListener> listenerList) throws Exception {
-        PluginsDispatcher plugins = wrapp(list);
-        ListenersDispatcher listeners = wrapp(listenerList);
+        PluginsDispatcher plugins = wrapPlugins(list);
+        ListenersDispatcher listeners = wrapListeners(listenerList);
 
         logger().info("##### Cycle de demarrage");
 
@@ -46,8 +47,8 @@ public class DefaultPluginsLifecycle extends PluginsLifecycle {
     @Override
     public void stop(List<? extends ApplicationPlugin> list,
                      List<? extends LifecycleListener> listenerList) throws Exception {
-        PluginsDispatcher plugins = wrapp(list);
-        ListenersDispatcher listeners = wrapp(listenerList);
+        PluginsDispatcher plugins = wrapPlugins(list);
+        ListenersDispatcher listeners = wrapListeners(listenerList);
 
         logger().info("##### Cycle d'arret");
 
@@ -70,12 +71,12 @@ public class DefaultPluginsLifecycle extends PluginsLifecycle {
     }
 
 
-    private ListenersDispatcher wrapp(List<? extends LifecycleListener> list) {
+    private ListenersDispatcher wrapListeners(List<? extends LifecycleListener> list) {
         return new ListenersDispatcher(list);
     }
 
 
-    private PluginsDispatcher wrapp(List<? extends ApplicationPlugin> list) {
+    private PluginsDispatcher wrapPlugins(List<? extends ApplicationPlugin> list) {
         return new PluginsDispatcher(list);
     }
 
